@@ -9,6 +9,8 @@ const ketquaRoute = require("./routes/ketqua");
 const tnvRoute = require("./routes/tinhnguyenvien");
 const nhataitroRoute = require("./routes/nhataitro");
 const hopdongRoute = require("./routes/hopdongtaitro");
+const culyRoutes = require("./routes/culy");
+const diemhotroRoutes = require("./routes/diemhotro");
 
 
 app.use(cors());
@@ -20,6 +22,9 @@ app.use("/api/ketqua", ketquaRoute);
 app.use("/api/tinhnguyenvien", tnvRoute);
 app.use("/api/nhataitro", nhataitroRoute);
 app.use("/api/hopdongtaitro", hopdongRoute);
+app.use("/api/culy", culyRoutes);
+app.use("/api/diemhotro", diemhotroRoutes);
+
 
 app.get("/", (req, res) => {
   res.send("Server is running!");

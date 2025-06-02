@@ -36,4 +36,29 @@ router.get("/", (req, res) => {
   });
 });
 
+// Cập nhật thông tin tình nguyện viên
+router.put("/:id", (req, res) => {
+  const { id } = req.params;
+  const { hoten, namsinh, sdt, nhiemvu, ma_diem } = req.body;
+  const sql = `
+    UPDATE TINHNGUYENVIEN
+    SET hoten = ?, namsinh = ?, sdt = ?, nhiemvu = ?, ma_diem = ?
+    WHERE ma_tnv = ?
+  `;
+  db.query(sql, [hoten, namsinh, sdt, nhiemvu, ma_diem, id], (err, result) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json({ message: "Cập nhật tình nguyện viên thành công" });
+  });
+});
+
+// Xóa tình nguyện viên
+router.delete("/:id", (req, res) => {
+  const { id } = req.params;
+  const sql = "DELETE FROM TINHNGUYENVIEN WHERE ma_tnv = ?";
+  db.query(sql, [id], (err, result) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json({ message: "Xóa tình nguyện viên thành công" });
+  });
+});
+
 module.exports = router;

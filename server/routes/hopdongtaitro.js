@@ -15,7 +15,7 @@ router.post("/", (req, res) => {
   });
 });
 
-// Xem danh sách hợp đồng
+// Xem danh sách hợp đồng tài trợ (JOIN tên nhà tài trợ)
 router.get("/", (req, res) => {
   const sql = `
     SELECT 
@@ -32,6 +32,31 @@ router.get("/", (req, res) => {
   db.query(sql, (err, result) => {
     if (err) return res.status(500).json({ error: err.message });
     res.json(result);
+  });
+});
+
+// Cập nhật hợp đồng tài trợ
+router.put("/:id", (req, res) => {
+  const { id } = req.params;
+  const { ngay_ky, nguoi_daidien, giatri_hopdong, danhsach_vatpham, ma_nhataitro } = req.body;
+  const sql = `
+    UPDATE HOPDONGTAITRO
+    SET ngay_ky = ?, nguoi_daidien = ?, giatri_hopdong = ?, danhsach_vatpham = ?, ma_nhataitro = ?
+    WHERE ma_hopdong = ?
+  `;
+  db.query(sql, [ngay_ky, nguoi_daidien, giatri_hopdong, danhsach_vatpham, ma_nhataitro, id], (err, result) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json({ message: "Cập nhật hợp đồng tài trợ thành công" });
+  });
+});
+
+// Xóa hợp đồng tài trợ
+router.delete("/:id", (req, res) => {
+  const { id } = req.params;
+  const sql = "DELETE FROM HOPDONGTAITRO WHERE ma_hopdong = ?";
+  db.query(sql, [id], (err, result) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json({ message: "Xóa hợp đồng tài trợ thành công" });
   });
 });
 

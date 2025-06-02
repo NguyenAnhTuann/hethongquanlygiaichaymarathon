@@ -36,4 +36,29 @@ router.get("/", (req, res) => {
   });
 });
 
+// Cập nhật kết quả thi đấu
+router.put("/:id", (req, res) => {
+  const { id } = req.params;
+  const { ma_vdv, ma_culy, thoigian_hoanthanh, hang, ghichu } = req.body;
+  const sql = `
+    UPDATE KETQUA
+    SET ma_vdv = ?, ma_culy = ?, thoigian_hoanthanh = ?, hang = ?, ghichu = ?
+    WHERE ma_ketqua = ?
+  `;
+  db.query(sql, [ma_vdv, ma_culy, thoigian_hoanthanh, hang, ghichu, id], (err, result) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json({ message: "Cập nhật kết quả thi đấu thành công" });
+  });
+});
+
+// Xóa kết quả thi đấu
+router.delete("/:id", (req, res) => {
+  const { id } = req.params;
+  const sql = "DELETE FROM KETQUA WHERE ma_ketqua = ?";
+  db.query(sql, [id], (err, result) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json({ message: "Xóa kết quả thi đấu thành công" });
+  });
+});
+
 module.exports = router;
